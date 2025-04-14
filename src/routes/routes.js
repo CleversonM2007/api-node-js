@@ -1,18 +1,18 @@
 const express = require('express'); 
 const router = express.Router(); 
 
-const UsuariosController = require('../controllers/livros_autores');
-const UsuariosController = require('../controllers/livros_generos');  
+const AutoresController = require('../controllers/livrosAutores');
+const GenerosController = require('../controllers/livrosGeneros');  
 
-router.get('/livros_autores', UsuariosController.listarLivroAutores); 
-router.post('/livros_autores', UsuariosController.cadastrarLivroAutores); 
-router.patch('/livros_autores', UsuariosController.editarLivroAutores); 
-router.delete('/livros_autores', UsuariosController.apagarLivroAutores); 
+router.get('/livrosAutores', AutoresController.listarLivroAutores); 
+router.post('/livrosAutores', AutoresController.cadastrarLivroAutores); 
+router.patch('/livrosAutores', AutoresController.editarLivroAutores); 
+router.delete('/livrosAutores', AutoresController.apagarLivroAutores); 
 
-router.get('/livros_generos', UsuariosController.listarLivroGeneros); 
-router.post('/livros_generos', UsuariosController.cadastrarLivroGeneros); 
-router.patch('/livros_generos', UsuariosController.editarLivroGeneros); 
-router.delete('/livros_generos', UsuariosController.apagarLivroGeneros); 
+router.get('/livrosGeneros', GenerosController.listarLivroGeneros); 
+router.post('/livrosGeneros', GenerosController.cadastrarLivroGeneros); 
+router.patch('/livrosGeneros', GenerosController.editarLivroGeneros); 
+router.delete('/livrosGeneros', GenerosController.apagarLivroGeneros); 
 
 
 module.exports = router;
