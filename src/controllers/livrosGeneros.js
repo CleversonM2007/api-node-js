@@ -3,10 +3,19 @@ const db = require('../dataBase/connection');
 module.exports = {
     async listarLivroGeneros(request, response) {
         try {
+
+            const sql = `
+            SELECT livro_id, gen_id FROM livro_generos;
+            `;
+
+            const [rows] = await db.query(sql);
+
+            const nRegistros = [rows=length];
+
             return response.status(200).json({
                 sucesso: true, 
                 mensagem: 'Lista de generos', 
-                dados: null
+                dados: rows
             });
         } catch (error) {
             return response.status(500).json({

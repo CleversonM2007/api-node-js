@@ -2,11 +2,21 @@ const db = require('../dataBase/connection');
 
 module.exports = {
     async listarLivroAutores(request, response) {
+        
         try {
+
+            const sql = `
+            SELECT aut_id, livro_id FROM livro_autores;
+            `;
+
+            const [rows] = await db.query(sql);
+
+            const nRegistros = [rows=length];
+
             return response.status(200).json({
                 sucesso: true, 
                 mensagem: 'Lista de Autores', 
-                dados: null
+                dados: rows
             });
         } catch (error) {
             return response.status(500).json({
