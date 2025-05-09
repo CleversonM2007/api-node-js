@@ -28,10 +28,34 @@ module.exports = {
     }, 
     async cadastrarLivroAutores(request, response) {
         try {
+
+            const { livro_id, gen_id } = request.body;
+            const usu_ativo = 1;
+
+            // instrução SQL
+            const sql = `
+            INSERT INTO LIVRO_AUTORES
+                (livro_id, aut_id)
+            VALUES
+                (?,?)`;
+
+            // definição dos dados a serem inseridos em um array
+            const values = [livro_id, aut_id];
+
+            //execução da instrução SQL passando os parâmetros
+            const [result] = await db.query(sql, values);
+
+            // identificação do ID do registro inserido
+            const dados = {
+                id: result.insertId,
+                livro_id,
+                aut_id
+            }
+
             return response.status(200).json({
                 sucesso: true, 
                 mensagem: 'Cadastro de Autores', 
-                dados: null
+                dados: dados
             });
         } catch (error) {
             return response.status(500).json({
