@@ -10,7 +10,7 @@ module.exports = {
 
             const [rows] = await db.query(sql);
 
-            const nRegistros = [rows=length];
+            const nRegistros = rows.length;
 
             return response.status(200).json({
                 sucesso: true, 
@@ -25,61 +25,46 @@ module.exports = {
             });
         }
     }, 
-    async cadastrarLivroGeneros(request, response) {
-        try {
-
-            const { livro_id, gen_id } = request.body;
-            const usu_ativo = 1;
-
-            // instrução SQL
-
-            const sql = `
-            INSERT INTO LIVRO_GENEROS
-                (livro_id, gen_id)
-            VALUES
-                (?,?)`;
-
-            // definição dos dados a serem inseridos em um array
-            const values = [livro_id, gen_id];
-
-            //execução da instrução SQL passando os parâmetros
-            const [result] = await db.query(sql, values);
-
-            // identificação do ID do registro inserido
-            const dados = {
-                id: result.insertId,
-                livro_id, 
-                gen_id
-            }
-
-            return response.status(200).json({
-                sucesso: true, 
-                mensagem: 'Cadastro de generos de livros', 
-                dados: dados
-            });
-        } catch (error) {
-            return response.status(500).json({
-                sucesso: false, 
-                mensagem: 'Erro na requisição.', 
-                dados: error.message
-            });
-        }
-    }, 
     async editarLivroGeneros(request, response) {
         try {
+            const { livro_id, gen_id } = request.body;
+            const { id } = request.params;
+
+            const sql = `
+                UPDATE LIVRO_GENEROS SET
+                    livro_id = ?, gen_id = ?
+                WHERE
+                    livro_id = ?;
+            `;
+
+            const values = [livro_id, gen_id, id];
+            const [result] = await db.query(sql, values);
+
+            if (result.affectedRows === 0) {
+                return response.status(404).json({
+                    sucess: false,
+                    mensagem: `Usuário ${id} não encontrado!`,
+                    dados: null
+                });
+            }
+
+            const dados = { livro_id, gen_id };
+
             return response.status(200).json({
-                sucesso: true, 
-                mensagem: 'Alteração no cadastro de generos de livros', 
-                dados: null
+                sucesso: true,
+                mensagem: `Usuário ${id} atualizado com sucesso!`,
+                dados
             });
+
         } catch (error) {
             return response.status(500).json({
-                sucesso: false, 
-                mensagem: 'Erro na requisição.', 
+                sucesso: false,
+                mensagem: 'Erro na requisição.',
                 dados: error.message
             });
         }
-    }, 
+    },
+    
     async apagarLivroGeneros(request, response) {
         try {
             return response.status(200).json({

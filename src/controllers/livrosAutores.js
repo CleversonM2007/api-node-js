@@ -11,7 +11,7 @@ module.exports = {
 
             const [rows] = await db.query(sql);
 
-            const nRegistros = [rows=length];
+            const nRegistros = rows.length;
 
             return response.status(200).json({
                 sucesso: true, 
@@ -29,7 +29,7 @@ module.exports = {
     async cadastrarLivroAutores(request, response) {
         try {
 
-            const { livro_id, gen_id } = request.body;
+            const { livro_id, aut_id } = request.body;
             const usu_ativo = 1;
 
             // instrução SQL
