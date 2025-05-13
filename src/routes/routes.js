@@ -6,12 +6,12 @@ const GenerosController = require('../controllers/livrosGeneros');
 
 router.get('/livrosAutores', AutoresController.listarLivroAutores); 
 router.post('/livrosAutores', AutoresController.cadastrarLivroAutores); 
-router.patch('/livrosAutores/:aut_id', AutoresController.editarLivroAutores); 
-router.delete('/livrosAutores', AutoresController.apagarLivroAutores); 
+router.patch('/livrosAutores/:aut_id', AutoresController.editarLivroAutores); //params
+router.delete('/LivrosAutores/:aut_id', AutoresController.apagarusuario); //params
 
 router.get('/livrosGeneros', GenerosController.listarLivroGeneros); 
 router.post('/livrosGeneros', GenerosController.cadastrarLivroGeneros); 
-router.patch('/livrosGeneros/:gen_id', GenerosController.editarLivroGeneros); 
-router.delete('/livrosGeneros', GenerosController.apagarLivroGeneros); 
+router.patch('/livrosGeneros/:gen_id', GenerosController.editarLivroGeneros); //params
+router.delete('/LivrosGeneros/:gen_id', GenerosController.apagarusuario); //params
 
 module.exports = router;

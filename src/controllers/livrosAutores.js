@@ -114,6 +114,27 @@ module.exports = {
 
     async apagarLivroAutores(request, response) {
         try {
+
+            // parâmetro passado via url na chamada da api pelo front-end
+            const { aut_id } = request.params;
+
+            // comando de exclusão
+            const sql = 'DELETE FROM LIVRO_AUTORES WHERE aut_id = ?';
+
+            // array com parâmetros da exclusão
+            const values = [aut_id];
+
+            // executa instrução no banco de dados
+            const [result] = await db.query(sql, values);
+
+            if (result.affectedRows === 0) {
+            return res.status(404).json({
+                sucesso: false,
+                mensagem: `Usuário ${aut_id} não encontrado!`,
+                dados: null
+            });
+            }
+
             return response.status(200).json({
                 sucesso: true, 
                 mensagem: 'Exclusão do Autor.', 
