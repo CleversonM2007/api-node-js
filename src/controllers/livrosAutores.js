@@ -69,36 +69,37 @@ module.exports = {
 
             // parâmetros recebidos pelo corpo da requisição
         const { livro_id, aut_id } = request.body;
-        // parâmetro recebido pela URL via params /:usuario/1
-        const { id } = request.params;
-        // instruções SQL
+
+        // instrução SQL
         const sql = `
-            UPDATE livrosAutores SET
-                livro_id
-            WHERE
-                aut_id = ?;
+        UPDATE livro_autores SET
+            livro_id = ?
+         WHERE
+            aut_id = ?;
         `;
+
         // preparo do array com dados que serão atualizados
-        const values = [ livro_id ];
-        // execução e obtenção de confirmação da atualização realizada
+        const values = [livro_id, aut_id];
+
+        // execução e obtenção de confirmação da atualização
         const [result] = await db.query(sql, values);
 
         if (result.affectedRows === 0) {
             return response.status(404).json({
                 sucesso: false,
-                mensagem: `Usuário ${id} não encontrado!`,
+                mensagem: `Autor ${aut_id} não encontrado!`,
                 dados: null
             });
-        };
+        }
 
         const dados = {
-            id,
+            aut_id,
             livro_id
         };
 
         return response.status(200).json({
             sucesso: true,
-            mensagem: `Usuário ${id} atualizado com sucesso!`,
+            mensagem: `Autor ${aut_id} atualizado com sucesso!`,
             dados
         });
 
@@ -113,27 +114,7 @@ module.exports = {
 
     async apagarLivroAutores(request, response) {
         try {
-
-            // parâmetro passado via url na chamada da api pelo front-end
-            const { aut_id } = request.params;
-
-            // comando de exclusão
-            const sql = 'DELETE FROM LIVRO_AUTORES WHERE aut_id = ?';
-
-            // array com parâmetros da exclusão
-            const values = [aut_id];
-
-            // executa instrução no banco de dados
-            const [result] = await db.query(sql, values);
-
-            if (result.affectedRows === 0) {
-            return res.status(404).json({
-                sucesso: false,
-                mensagem: `Usuário ${aut_id} não encontrado!`,
-                dados: null
-            });
-            }
-
+            
             return response.status(200).json({
                 sucesso: true, 
                 mensagem: 'Exclusão do Autor.', 
