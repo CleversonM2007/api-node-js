@@ -69,37 +69,36 @@ module.exports = {
 
             // parâmetros recebidos pelo corpo da requisição
         const { livro_id, aut_id } = request.body;
-
-        // instrução SQL
+        // parâmetro recebido pela URL via params /:usuario/1
+        const { id } = request.params;
+        // instruções SQL
         const sql = `
-        UPDATE livro_autores SET
-            livro_id = ?
-         WHERE
-            aut_id = ?;
+            UPDATE livrosAutores SET
+                livro_id
+            WHERE
+                aut_id = ?;
         `;
-
         // preparo do array com dados que serão atualizados
-        const values = [livro_id, aut_id];
-
-        // execução e obtenção de confirmação da atualização
+        const values = [ livro_id ];
+        // execução e obtenção de confirmação da atualização realizada
         const [result] = await db.query(sql, values);
 
         if (result.affectedRows === 0) {
             return response.status(404).json({
                 sucesso: false,
-                mensagem: `Autor ${aut_id} não encontrado!`,
+                mensagem: `Usuário ${id} não encontrado!`,
                 dados: null
             });
-        }
+        };
 
         const dados = {
-            aut_id,
+            id,
             livro_id
         };
 
         return response.status(200).json({
             sucesso: true,
-            mensagem: `Autor ${aut_id} atualizado com sucesso!`,
+            mensagem: `Usuário ${id} atualizado com sucesso!`,
             dados
         });
 

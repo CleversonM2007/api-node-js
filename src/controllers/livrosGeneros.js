@@ -31,6 +31,7 @@ module.exports = {
             const usu_ativo = 1;
 
             // instrução SQL
+
             const sql = `
             INSERT INTO LIVRO_GENEROS
                 (livro_id, gen_id)
@@ -46,13 +47,13 @@ module.exports = {
             // identificação do ID do registro inserido
             const dados = {
                 id: result.insertId,
-                livro_id,
+                livro_id, 
                 gen_id
             }
 
             return response.status(200).json({
                 sucesso: true, 
-                mensagem: 'Cadastro de Autores', 
+                mensagem: 'Cadastro de generos de livros', 
                 dados: dados
             });
         } catch (error) {
@@ -63,53 +64,6 @@ module.exports = {
             });
         }
     }, 
-    async editarLivroAutores(request, response) {
-        try {
-
-            // parâmetros recebidos pelo corpo da requisição
-        const { livro_id, gen_id } = request.body;
-
-        // instrução SQL
-        const sql = `
-        UPDATE livro_generos SET
-            livro_id = ?
-         WHERE
-            gen_id = ?;
-        `;
-
-        // preparo do array com dados que serão atualizados
-        const values = [livro_id, gen_id];
-
-        // execução e obtenção de confirmação da atualização
-        const [result] = await db.query(sql, values);
-
-        if (result.affectedRows === 0) {
-            return response.status(404).json({
-                sucesso: false,
-                mensagem: `Gênero ${gen_id} não encontrado!`,
-                dados: null
-            });
-        }
-
-        const dados = {
-            gen_id,
-            livro_id
-        };
-
-        return response.status(200).json({
-            sucesso: true,
-            mensagem: `Gênero ${gen_id} atualizado com sucesso!`,
-            dados
-        });
-
-    } catch (error) {
-        return response.status(500).json({
-            sucesso: false,
-            mensagem: 'Erro na requisição.',
-            dados: error.message
-        });
-    }
-},
     async editarLivroGeneros(request, response) {
         try {
 
@@ -119,8 +73,8 @@ module.exports = {
         const { id } = request.params;
         // instruções SQL
         const sql = `
-            UPDATE livro_generos SET
-                livro_id = ?
+            UPDATE usuarios SET
+                livro_id, gen_id
             WHERE
                 gen_id = ?;
         `;
@@ -137,13 +91,15 @@ module.exports = {
             });
         };
         const dados = {
-            gen_id,
-            livro_id
+            id,
+            nome,
+            email,
+            tipo
         };
 
         return response.status(200).json({
             sucesso: true,
-            mensagem: `Usuário ${gen_id} atualizado com sucesso!`,
+            mensagem: `Usuário ${id} atualizado com sucesso!`,
             dados
         });
 
